@@ -20,3 +20,12 @@ FROM currency c JOIN currencyRate cr ON c.currencyCode = cr.currencyCode
 WHERE (c.currencyCode,cr.updatedDate) IN (
 	SELECT currencyCode, MAX(updatedDate) FROM currencyRate GROUP BY currencyCode
 );
+
+CREATE TABLE user(
+userId INT UNSIGNED NOT NULL PRIMARY KEY,
+userName VARCHAR(64) COLLATE latin1_general_ci NOT NULL,
+`password` VARCHAR(255) NOT NULL,
+lastPasswordUpdate DATETIME NOT NULL,
+resetFlag CHAR(1) NOT NULL,
+CONSTRAINT UNIQUE KEY (userName)
+);
