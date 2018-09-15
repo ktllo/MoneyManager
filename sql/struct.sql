@@ -13,3 +13,10 @@ rate DECIMAL(12,4) NOT NULL,
 CONSTRAINT PRIMARY KEY (currencyCode, updatedDate),
 CONSTRAINT FOREIGN KEY (currencyCode) REFERENCES currency(currencyCode) ON DELETE RESTRICT ON UPDATE CASCADE
 );
+
+CREATE OR REPLACE VIEW vw_current_currency_rate AS
+SELECT c.currencyCode, c.currencyName, c.currencySymbol, c.subUnitName, c.subUnitSize, cr.rate, cr.updatedDate
+FROM currency c JOIN currencyRate cr ON c.currencyCode = cr.currencyCode
+WHERE (c.currencyCode,cr.updatedDate) IN (
+	SELECT currencyCode, MAX(updatedDate) FROM currencyRate GROUP BY currencyCode
+);
