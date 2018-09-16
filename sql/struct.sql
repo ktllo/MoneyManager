@@ -22,7 +22,7 @@ WHERE (c.currencyCode,cr.updatedDate) IN (
 );
 
 CREATE TABLE user(
-userId INT UNSIGNED NOT NULL PRIMARY KEY,
+userId INT UNSIGNED NOT NULL PRIMARY KEY auto_increment,
 userName VARCHAR(64) COLLATE latin1_general_ci NOT NULL,
 `password` VARCHAR(255) NOT NULL,
 lastPasswordUpdate DATETIME NOT NULL,
