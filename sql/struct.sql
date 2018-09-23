@@ -3,20 +3,12 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 16, 2018 at 05:02 PM
+-- Generation Time: Sep 16, 2018 at 06:03 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Database: `moneymanager`
@@ -28,12 +20,15 @@ SET time_zone = "+00:00";
 -- Table structure for table `account`
 --
 
+DROP TABLE IF EXISTS `account`;
 CREATE TABLE IF NOT EXISTS `account` (
   `account_id` int(10) unsigned NOT NULL,
   `account_name` varchar(255) NOT NULL,
   `account_type_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `accountCurrency` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
-  `parentAccount` int(10) unsigned DEFAULT NULL
+  `parentAccount` int(10) unsigned DEFAULT NULL,
+  `balance` decimal(25,5) NOT NULL DEFAULT '0.00000',
+  `last_reconciliation` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -42,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Table structure for table `account_properties`
 --
 
+DROP TABLE IF EXISTS `account_properties`;
 CREATE TABLE IF NOT EXISTS `account_properties` (
   `account_id` int(10) unsigned NOT NULL,
   `property_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -54,6 +50,7 @@ CREATE TABLE IF NOT EXISTS `account_properties` (
 -- Table structure for table `account_properties_list`
 --
 
+DROP TABLE IF EXISTS `account_properties_list`;
 CREATE TABLE IF NOT EXISTS `account_properties_list` (
   `property_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `default_value` text,
@@ -66,6 +63,7 @@ CREATE TABLE IF NOT EXISTS `account_properties_list` (
 -- Table structure for table `account_type`
 --
 
+DROP TABLE IF EXISTS `account_type`;
 CREATE TABLE IF NOT EXISTS `account_type` (
   `account_type_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `accout_type_name` text NOT NULL,
@@ -79,6 +77,7 @@ CREATE TABLE IF NOT EXISTS `account_type` (
 -- Table structure for table `apiKeys`
 --
 
+DROP TABLE IF EXISTS `apiKeys`;
 CREATE TABLE IF NOT EXISTS `apiKeys` (
   `apiKey` char(86) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `userId` int(10) unsigned NOT NULL,
@@ -91,6 +90,7 @@ CREATE TABLE IF NOT EXISTS `apiKeys` (
 -- Table structure for table `currency`
 --
 
+DROP TABLE IF EXISTS `currency`;
 CREATE TABLE IF NOT EXISTS `currency` (
   `currencyCode` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `currencyName` varchar(500) NOT NULL,
@@ -103,6 +103,7 @@ CREATE TABLE IF NOT EXISTS `currency` (
 -- Table structure for table `currencyRate`
 --
 
+DROP TABLE IF EXISTS `currencyRate`;
 CREATE TABLE IF NOT EXISTS `currencyRate` (
   `currencyCode` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `updatedDate` datetime NOT NULL,
@@ -115,6 +116,7 @@ CREATE TABLE IF NOT EXISTS `currencyRate` (
 -- Table structure for table `role`
 --
 
+DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `roleName` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `roleDescription` text NOT NULL
@@ -123,9 +125,28 @@ CREATE TABLE IF NOT EXISTS `role` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `Transaction`
+--
+
+DROP TABLE IF EXISTS `Transaction`;
+CREATE TABLE IF NOT EXISTS `Transaction` (
+  `transactionID` char(32) CHARACTER SET ascii NOT NULL,
+  `account` int(10) unsigned DEFAULT NULL,
+  `creditAmount` decimal(25,5) NOT NULL,
+  `debitAmount` decimal(25,5) NOT NULL,
+  `Description` text,
+  `transactionDate` datetime DEFAULT NULL,
+  `reconciliationStatus` char(1) DEFAULT 'N',
+  `reconciliationDate` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
+DROP TABLE IF EXISTS `user`;
 CREATE TABLE IF NOT EXISTS `user` (
   `userId` int(10) unsigned NOT NULL,
   `userName` varchar(64) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -140,6 +161,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Table structure for table `userRole`
 --
 
+DROP TABLE IF EXISTS `userRole`;
 CREATE TABLE IF NOT EXISTS `userRole` (
   `userId` int(10) unsigned NOT NULL,
   `roleName` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
@@ -150,6 +172,7 @@ CREATE TABLE IF NOT EXISTS `userRole` (
 --
 -- Stand-in structure for view `vw_account_properties`
 --
+DROP VIEW IF EXISTS `vw_account_properties`;
 CREATE TABLE IF NOT EXISTS `vw_account_properties` (
 `account_id` int(10) unsigned
 ,`property_name` varchar(255)
@@ -161,6 +184,7 @@ CREATE TABLE IF NOT EXISTS `vw_account_properties` (
 --
 -- Stand-in structure for view `vw_current_currency_rate`
 --
+DROP VIEW IF EXISTS `vw_current_currency_rate`;
 CREATE TABLE IF NOT EXISTS `vw_current_currency_rate` (
 `currencyCode` char(3)
 ,`currencyName` varchar(500)
@@ -245,6 +269,12 @@ ALTER TABLE `role`
   ADD PRIMARY KEY (`roleName`);
 
 --
+-- Indexes for table `Transaction`
+--
+ALTER TABLE `Transaction`
+  ADD PRIMARY KEY (`transactionID`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -309,9 +339,4 @@ ALTER TABLE `currencyRate`
 ALTER TABLE `userRole`
   ADD CONSTRAINT `userRole_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON UPDATE CASCADE,
   ADD CONSTRAINT `userRole_ibfk_2` FOREIGN KEY (`roleName`) REFERENCES `role` (`roleName`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
