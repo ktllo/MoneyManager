@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `account` (
   `parentAccount` int(10) unsigned DEFAULT NULL,
   `balance` decimal(25,5) NOT NULL DEFAULT '0.00000',
   `last_reconciliation` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `account_properties` (
   `account_id` int(10) unsigned NOT NULL,
   `property_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `property_value` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `account_properties_list` (
   `property_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `default_value` text,
   `description` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS `account_type` (
   `accout_type_name` text NOT NULL,
   `debit_label` varchar(255) NOT NULL,
   `credit_label` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -82,7 +82,7 @@ CREATE TABLE IF NOT EXISTS `apiKeys` (
   `apiKey` char(86) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `userId` int(10) unsigned NOT NULL,
   `keyName` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS `currency` (
   `currencyCode` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `currencyName` varchar(500) NOT NULL,
   `subUnitSize` decimal(8,0) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `currencyRate` (
   `currencyCode` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `updatedDate` datetime NOT NULL,
   `rate` decimal(12,4) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -120,7 +120,7 @@ DROP TABLE IF EXISTS `role`;
 CREATE TABLE IF NOT EXISTS `role` (
   `roleName` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `roleDescription` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `Transaction` (
   `transactionDate` datetime DEFAULT NULL,
   `reconciliationStatus` char(1) DEFAULT 'N',
   `reconciliationDate` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -153,7 +153,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `password` varchar(255) NOT NULL,
   `lastPasswordUpdate` datetime NOT NULL,
   `resetFlag` char(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -165,7 +165,7 @@ DROP TABLE IF EXISTS `userRole`;
 CREATE TABLE IF NOT EXISTS `userRole` (
   `userId` int(10) unsigned NOT NULL,
   `roleName` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
