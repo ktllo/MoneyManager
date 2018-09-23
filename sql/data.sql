@@ -142,7 +142,7 @@ INSERT INTO currency VALUES('THB','Baht',100) ON DUPLICATE KEY UPDATE currencyCo
 INSERT INTO currency VALUES('TJS','Somoni',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('TMT','Turkmenistan New Manat',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('TND','Tunisian Dinar',1000) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
-INSERT INTO currency VALUES('TOP','Pa¡¦anga',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
+INSERT INTO currency VALUES('TOP','Pa''anga',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('TRY','Turkish Lira',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('TTD','Trinidad and Tobago Dollar',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('TWD','New Taiwan Dollar',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
