@@ -6,7 +6,6 @@ INSERT INTO currency VALUES('AFN','Afghani',100) ON DUPLICATE KEY UPDATE currenc
 INSERT INTO currency VALUES('ALL','Lek',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('AMD','Armenian Dram',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('ANG','Netherlands Antillean Guilder',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
-INSERT INTO currency VALUES('ANG','Netherlands Antillean Guilder',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('AOA','Kwanza',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('ARS','Argentine Peso',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
 INSERT INTO currency VALUES('AUD','Australian Dollar',100) ON DUPLICATE KEY UPDATE currencyCode=currencyCode;
