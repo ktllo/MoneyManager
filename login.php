@@ -66,4 +66,17 @@ function action_butLogin(){
 		</table>
 	</div>
 </body>
+<script>
+$("#username").keyup(function(event) {
+    if (event.keyCode === 13) {
+        $("#password").focus();
+    }
+});
+$("#password").keyup(function(event) {
+    if (event.keyCode === 13) {
+       action_butLogin();
+    }
+});
+$("#username").focus();
+</script>
 </html>
