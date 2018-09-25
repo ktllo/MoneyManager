@@ -40,7 +40,7 @@ function action_butLogin(){
 	}
 	$.post( "doLogin.php",{uname: uname, pass:pass}, function( data ) {
 		if(data.code==0){
-			alert("Login OK");
+			location.reload();
 		}else{
 			$("#txt_err").text(data.msg);
 			$("#msg_err").css("display", "block");

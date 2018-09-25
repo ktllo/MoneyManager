@@ -3,11 +3,13 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 16, 2018 at 06:03 PM
+-- Generation Time: Sep 18, 2018 at 04:15 AM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
@@ -87,6 +89,20 @@ CREATE TABLE IF NOT EXISTS `apiKeys` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `audit_log`
+--
+
+DROP TABLE IF EXISTS `audit_log`;
+CREATE TABLE IF NOT EXISTS `audit_log` (
+  `logID` bigint(20) unsigned NOT NULL,
+  `TAG` varchar(200) COLLATE utf8_bin NOT NULL,
+  `datetime` datetime NOT NULL,
+  `message` text COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `currency`
 --
 
@@ -137,7 +153,9 @@ CREATE TABLE IF NOT EXISTS `Transaction` (
   `Description` text,
   `transactionDate` datetime DEFAULT NULL,
   `reconciliationStatus` char(1) DEFAULT 'N',
-  `reconciliationDate` datetime NOT NULL
+  `reconciliationDate` datetime NOT NULL,
+  `currency` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci DEFAULT NULL,
+  `rate` decimal(12,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -176,7 +194,7 @@ DROP VIEW IF EXISTS `vw_account_properties`;
 CREATE TABLE IF NOT EXISTS `vw_account_properties` (
 `account_id` int(10) unsigned
 ,`property_name` varchar(255)
-,`property_value` text
+,`property_value` mediumtext
 );
 
 -- --------------------------------------------------------
@@ -251,6 +269,12 @@ ALTER TABLE `apiKeys`
   ADD KEY `userId` (`userId`);
 
 --
+-- Indexes for table `audit_log`
+--
+ALTER TABLE `audit_log`
+  ADD PRIMARY KEY (`logID`);
+
+--
 -- Indexes for table `currency`
 --
 ALTER TABLE `currency`
@@ -272,7 +296,9 @@ ALTER TABLE `role`
 -- Indexes for table `Transaction`
 --
 ALTER TABLE `Transaction`
-  ADD PRIMARY KEY (`transactionID`);
+  ADD PRIMARY KEY (`transactionID`),
+  ADD KEY `account` (`account`),
+  ADD KEY `currency` (`currency`);
 
 --
 -- Indexes for table `user`
@@ -297,6 +323,11 @@ ALTER TABLE `userRole`
 --
 ALTER TABLE `account`
   MODIFY `account_id` int(10) unsigned NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `audit_log`
+--
+ALTER TABLE `audit_log`
+  MODIFY `logID` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `user`
 --
@@ -334,9 +365,17 @@ ALTER TABLE `currencyRate`
   ADD CONSTRAINT `currencyRate_ibfk_1` FOREIGN KEY (`currencyCode`) REFERENCES `currency` (`currencyCode`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `Transaction`
+--
+ALTER TABLE `Transaction`
+  ADD CONSTRAINT `Transaction_ibfk_1` FOREIGN KEY (`account`) REFERENCES `account` (`account_id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `Transaction_ibfk_2` FOREIGN KEY (`currency`) REFERENCES `currency` (`currencyCode`);
+
+--
 -- Constraints for table `userRole`
 --
 ALTER TABLE `userRole`
   ADD CONSTRAINT `userRole_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON UPDATE CASCADE,
   ADD CONSTRAINT `userRole_ibfk_2` FOREIGN KEY (`roleName`) REFERENCES `role` (`roleName`) ON DELETE CASCADE ON UPDATE CASCADE;
+COMMIT;
 
