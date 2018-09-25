@@ -50,11 +50,13 @@ function action_butLogin(){
 	</script>
 </head>
 <body>
-<div style="width: 500px; padding: 20px; position: relative;margin:auto;margin-bottom:5px;display:none;font-size:1.1em" class="ui-widget-content ui-corner-all ui-state-error" id="msg_mand">
+<div style="height: 80px">
+<div style="width: 500px; padding: 20px; position: relative;margin:auto;margin-bottom:5px;display:none;font-size:1.1em;vertical-align:middle" class="ui-widget-content ui-corner-all ui-state-error" id="msg_mand">
 <span class="ui-icon ui-icon-alert"></span><span class="ui-state-error-text">Username and password are required.</span>
 </div>
 <div style="width: 500px; padding: 20px; position: relative;margin:auto;margin-bottom:5px;display:none;font-size:1.1em" class="ui-widget-content ui-corner-all ui-state-error" id="msg_err">
 <span class="ui-icon ui-icon-alert"></span><span class="ui-state-error-text" id="txt_err"></span>
+</div>
 </div>
 <div style="width: 500px; padding: 20px; position: relative;margin:auto" class="ui-widget-content ui-corner-all">
 		<div style="top:20px; font-size: 4vw; text-align: center">Login</div>
