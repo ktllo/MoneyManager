@@ -16,7 +16,7 @@ include_once 'config.php';
 	</style>
 	<script>
 function action_butLogin(){
-	$("#msg_err").css("display", "none");
+	$("#msg_err").hide("slide",{direction:"down"});
 	var uname = $("#username").val().trim();
 	var pass = $("#password").val().trim();
 	var hasError = false;
@@ -33,17 +33,17 @@ function action_butLogin(){
 		$("#password").removeClass("xx-input-error");
 	}
 	if(hasError){
-		$("#msg_mand").css("display", "block");
+		$("#msg_mand").show("slide",{direction:"up"});
 		return;
 	}else{
-		$("#msg_mand").css("display", "none");
+		$("#msg_mand").hide("slide",{direction:"down"});
 	}
 	$.post( "doLogin.php",{uname: uname, pass:pass}, function( data ) {
 		if(data.code==0){
 			location.reload();
 		}else{
 			$("#txt_err").text(data.msg);
-			$("#msg_err").css("display", "block");
+			$("#msg_err").show("slide",{direction:"up"});
 		}
 	});
 }
