@@ -3,13 +3,11 @@
 -- https://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Sep 18, 2018 at 04:15 AM
+-- Generation Time: Sep 29, 2018 at 01:58 PM
 -- Server version: 10.1.35-MariaDB
 -- PHP Version: 5.4.16
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 --
@@ -22,8 +20,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `account`
 --
 
-DROP TABLE IF EXISTS `account`;
-CREATE TABLE IF NOT EXISTS `account` (
+CREATE TABLE `account` (
   `account_id` int(10) unsigned NOT NULL,
   `account_name` varchar(255) NOT NULL,
   `account_type_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
@@ -39,8 +36,7 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Table structure for table `account_properties`
 --
 
-DROP TABLE IF EXISTS `account_properties`;
-CREATE TABLE IF NOT EXISTS `account_properties` (
+CREATE TABLE `account_properties` (
   `account_id` int(10) unsigned NOT NULL,
   `property_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `property_value` text
@@ -52,8 +48,7 @@ CREATE TABLE IF NOT EXISTS `account_properties` (
 -- Table structure for table `account_properties_list`
 --
 
-DROP TABLE IF EXISTS `account_properties_list`;
-CREATE TABLE IF NOT EXISTS `account_properties_list` (
+CREATE TABLE `account_properties_list` (
   `property_name` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `default_value` text,
   `description` text
@@ -65,8 +60,7 @@ CREATE TABLE IF NOT EXISTS `account_properties_list` (
 -- Table structure for table `account_type`
 --
 
-DROP TABLE IF EXISTS `account_type`;
-CREATE TABLE IF NOT EXISTS `account_type` (
+CREATE TABLE `account_type` (
   `account_type_id` varchar(255) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `accout_type_name` text NOT NULL,
   `debit_label` varchar(255) NOT NULL,
@@ -79,8 +73,7 @@ CREATE TABLE IF NOT EXISTS `account_type` (
 -- Table structure for table `apiKeys`
 --
 
-DROP TABLE IF EXISTS `apiKeys`;
-CREATE TABLE IF NOT EXISTS `apiKeys` (
+CREATE TABLE `apiKeys` (
   `apiKey` char(86) CHARACTER SET latin1 COLLATE latin1_bin NOT NULL,
   `userId` int(10) unsigned NOT NULL,
   `keyName` text NOT NULL
@@ -92,8 +85,7 @@ CREATE TABLE IF NOT EXISTS `apiKeys` (
 -- Table structure for table `audit_log`
 --
 
-DROP TABLE IF EXISTS `audit_log`;
-CREATE TABLE IF NOT EXISTS `audit_log` (
+CREATE TABLE `audit_log` (
   `logID` bigint(20) unsigned NOT NULL,
   `TAG` varchar(200) COLLATE utf8_bin NOT NULL,
   `datetime` datetime NOT NULL,
@@ -106,8 +98,7 @@ CREATE TABLE IF NOT EXISTS `audit_log` (
 -- Table structure for table `currency`
 --
 
-DROP TABLE IF EXISTS `currency`;
-CREATE TABLE IF NOT EXISTS `currency` (
+CREATE TABLE `currency` (
   `currencyCode` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `currencyName` varchar(500) NOT NULL,
   `subUnitSize` decimal(8,0) DEFAULT NULL
@@ -119,8 +110,7 @@ CREATE TABLE IF NOT EXISTS `currency` (
 -- Table structure for table `currencyRate`
 --
 
-DROP TABLE IF EXISTS `currencyRate`;
-CREATE TABLE IF NOT EXISTS `currencyRate` (
+CREATE TABLE `currencyRate` (
   `currencyCode` char(3) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `updatedDate` datetime NOT NULL,
   `rate` decimal(12,4) NOT NULL
@@ -132,8 +122,7 @@ CREATE TABLE IF NOT EXISTS `currencyRate` (
 -- Table structure for table `role`
 --
 
-DROP TABLE IF EXISTS `role`;
-CREATE TABLE IF NOT EXISTS `role` (
+CREATE TABLE `role` (
   `roleName` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `roleDescription` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -141,11 +130,21 @@ CREATE TABLE IF NOT EXISTS `role` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `subRole`
+--
+
+CREATE TABLE `subRole` (
+  `parentRole` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
+  `childRole` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Transaction`
 --
 
-DROP TABLE IF EXISTS `Transaction`;
-CREATE TABLE IF NOT EXISTS `Transaction` (
+CREATE TABLE `Transaction` (
   `transactionID` char(32) CHARACTER SET ascii NOT NULL,
   `account` int(10) unsigned DEFAULT NULL,
   `creditAmount` decimal(25,5) NOT NULL,
@@ -164,8 +163,7 @@ CREATE TABLE IF NOT EXISTS `Transaction` (
 -- Table structure for table `user`
 --
 
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE IF NOT EXISTS `user` (
+CREATE TABLE `user` (
   `userId` int(10) unsigned NOT NULL,
   `userName` varchar(64) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `password` varchar(255) NOT NULL,
@@ -179,8 +177,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 -- Table structure for table `userRole`
 --
 
-DROP TABLE IF EXISTS `userRole`;
-CREATE TABLE IF NOT EXISTS `userRole` (
+CREATE TABLE `userRole` (
   `userId` int(10) unsigned NOT NULL,
   `roleName` varchar(20) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -190,8 +187,7 @@ CREATE TABLE IF NOT EXISTS `userRole` (
 --
 -- Stand-in structure for view `vw_account_properties`
 --
-DROP VIEW IF EXISTS `vw_account_properties`;
-CREATE TABLE IF NOT EXISTS `vw_account_properties` (
+CREATE TABLE `vw_account_properties` (
 `account_id` int(10) unsigned
 ,`property_name` varchar(255)
 ,`property_value` mediumtext
@@ -202,13 +198,22 @@ CREATE TABLE IF NOT EXISTS `vw_account_properties` (
 --
 -- Stand-in structure for view `vw_current_currency_rate`
 --
-DROP VIEW IF EXISTS `vw_current_currency_rate`;
-CREATE TABLE IF NOT EXISTS `vw_current_currency_rate` (
+CREATE TABLE `vw_current_currency_rate` (
 `currencyCode` char(3)
 ,`currencyName` varchar(500)
 ,`subUnitSize` decimal(8,0)
 ,`rate` decimal(12,4)
 ,`updatedDate` datetime
+);
+
+-- --------------------------------------------------------
+
+--
+-- Stand-in structure for view `vw_user_role`
+--
+CREATE TABLE `vw_user_role` (
+`userId` int(11) unsigned
+,`roleName` varchar(20)
 );
 
 -- --------------------------------------------------------
@@ -228,6 +233,15 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_acco
 DROP TABLE IF EXISTS `vw_current_currency_rate`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_current_currency_rate` AS select `c`.`currencyCode` AS `currencyCode`,`c`.`currencyName` AS `currencyName`,`c`.`subUnitSize` AS `subUnitSize`,`cr`.`rate` AS `rate`,`cr`.`updatedDate` AS `updatedDate` from (`currency` `c` left join `currencyRate` `cr` on((`c`.`currencyCode` = `cr`.`currencyCode`))) where ((`c`.`currencyCode`,`cr`.`updatedDate`) in (select `currencyRate`.`currencyCode`,max(`currencyRate`.`updatedDate`) from `currencyRate` group by `currencyRate`.`currencyCode`) or isnull(`cr`.`currencyCode`));
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `vw_user_role`
+--
+DROP TABLE IF EXISTS `vw_user_role`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`%` SQL SECURITY DEFINER VIEW `vw_user_role` AS select `userRole`.`userId` AS `userId`,`userRole`.`roleName` AS `roleName` from `userRole` union select distinct `ur`.`userId` AS `userId`,`sr`.`childRole` AS `childRole` from (`userRole` `ur` join `subRole` `sr` on((`ur`.`roleName` = `sr`.`parentRole`)));
 
 --
 -- Indexes for dumped tables
@@ -291,6 +305,13 @@ ALTER TABLE `currencyRate`
 --
 ALTER TABLE `role`
   ADD PRIMARY KEY (`roleName`);
+
+--
+-- Indexes for table `subRole`
+--
+ALTER TABLE `subRole`
+  ADD PRIMARY KEY (`parentRole`,`childRole`),
+  ADD KEY `childRole` (`childRole`);
 
 --
 -- Indexes for table `Transaction`
@@ -365,6 +386,13 @@ ALTER TABLE `currencyRate`
   ADD CONSTRAINT `currencyRate_ibfk_1` FOREIGN KEY (`currencyCode`) REFERENCES `currency` (`currencyCode`) ON UPDATE CASCADE;
 
 --
+-- Constraints for table `subRole`
+--
+ALTER TABLE `subRole`
+  ADD CONSTRAINT `subRole_ibfk_1` FOREIGN KEY (`parentRole`) REFERENCES `role` (`roleName`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `subRole_ibfk_2` FOREIGN KEY (`childRole`) REFERENCES `role` (`roleName`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `Transaction`
 --
 ALTER TABLE `Transaction`
@@ -375,7 +403,6 @@ ALTER TABLE `Transaction`
 -- Constraints for table `userRole`
 --
 ALTER TABLE `userRole`
-  ADD CONSTRAINT `userRole_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON UPDATE CASCADE,
-  ADD CONSTRAINT `userRole_ibfk_2` FOREIGN KEY (`roleName`) REFERENCES `role` (`roleName`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;
+  ADD CONSTRAINT `userRole_ibfk_1` FOREIGN KEY (`userId`) REFERENCES `user` (`userId`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `userRole_ibfk_2` FOREIGN KEY (`roleName`) REFERENCES `role` (`roleName`) ON UPDATE CASCADE;
 
