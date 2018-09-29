@@ -61,6 +61,14 @@ try{
 		}else{
 			#Login fail
 			$log->log('LOGIN',"Failed login from %s for %s",$ip,$uname);
+			if(array_key_exists('cost', $passinfo['options'])){
+				if($passinfo['options']['cost']<PASSWORD_COST){
+					$roundNeeded = pow(2, PASSWORD_COST - $passinfo['options']['cost']) - 1;
+					for($i=0;$i<$roundNeeded;$i++){
+						password_hash($pass,PASSWORD_DEFAULT, ['cost' => $passinfo['options']['cost']]);
+					}
+				}
+			}
 			$arr['code'] = 3;
 			$arr['msg'] = 'Username/password incorrect.';
 			header('Content-type: application/json');
