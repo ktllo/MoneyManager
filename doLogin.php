@@ -1,7 +1,7 @@
 <?php
 include_once 'config.php';
 include_once 'function.php';
-start_session();start_session();start_session();start_session();
+start_session();
 unset($_SESSION['uid']);
 if(!array_key_exists('uname',$_POST)||!array_key_exists('pass',$_POST)){
 	$arr['code'] = 1;
