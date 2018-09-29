@@ -35,10 +35,10 @@ try{
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 	if($row){
 		$password = $row['password'];
+		$passinfo = password_get_info($password);
 		if(password_verify($pass, $password)){
 			#Login OK
 			$log->log('LOGIN',"User %s logged in from %s",$uname,$ip);
-			$passinfo = password_get_info($password);
 			if($passinfo['algo']<PASSWORD_DEFAULT){
 				$log->log('LOG',"Poor hash algroithm %s used for user %s, rehash is needed.",$passinfo['algoName'],$uname);
 			}else if($passinfo['algo']==PASSWORD_DEFAULT){
