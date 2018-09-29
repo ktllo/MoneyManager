@@ -34,11 +34,22 @@ try{
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 	if($row){
 		$password = $row['password'];
-		if(password_verify($c, $password)){
+		if(password_verify($pass, $password)){
 			#Login OK
 			doLog($log,'LOGIN',"User {$uname} logged in from {$ip}");
-			if(password_needs_rehash($password, PASSWORD_DEFAULT, ['cost' => PASSWORD_COST])){
-				doLog($log, 'SECURITY', "Password for user {$uname} need rehash.");
+			$passinfo = password_get_info($password);
+			if($passinfo['algo']<PASSWORD_DEFAULT){
+				doLog($log,'LOG',"Poor hash algroithm {$passinfo['algoName']} used for user $uname, rehash is needed.");
+			}else if($passinfo['algo']==PASSWORD_DEFAULT){
+				if(array_key_exists('cost', $passinfo['options'])){
+					if($passinfo['options']['cost']<PASSWORD_COST){
+						$roundNeeded = pow(2, PASSWORD_COST - $passinfo['options']['cost']) - 1;
+						for($i=0;$i<$roundNeeded;$i++){
+							password_hash($pass,PASSWORD_DEFAULT, ['cost' => $passinfo['options']['cost']]);
+						}
+					}
+				}
+				doLog($log,'LOGIN',"Poor hash cost used for user $uname, rehash is needed.");
 			}
 			
 			$_SESSION['uid'] = $row['userId'];
