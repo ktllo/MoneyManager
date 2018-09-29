@@ -9,3 +9,4 @@ define('DB_NAME','moneymanager');
 #Please remove space from he generated output.
 #https://www.random.org/cgi-bin/randbyte?nbytes=7&format=h
 define('NODE_ID','9c5109155831fe');
+define('PASSWORD_COST',12);

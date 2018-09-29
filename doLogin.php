@@ -34,10 +34,10 @@ try{
 	$row = $stmt->fetch(PDO::FETCH_ASSOC);
 	if($row){
 		$password = $row['password'];
-		if(password_verify($pass, $password)){
+		if(password_verify($c, $password)){
 			#Login OK
 			doLog($log,'LOGIN',"User {$uname} logged in from {$ip}");
-			if(password_needs_rehash($password, PASSWORD_DEFAULT)){
+			if(password_needs_rehash($password, PASSWORD_DEFAULT, ['cost' => PASSWORD_COST])){
 				doLog($log, 'SECURITY', "Password for user {$uname} need rehash.");
 			}
 			
@@ -57,7 +57,8 @@ try{
 		}
 	}else{
 			#Login fail
-			doLog($log,'LOGIN',"Failed login from {$ip} for $uname");
+			doLog($log,'LOGIN',"Failed  from {$ip} for $uname(User does not exists)");
+			password_hash($pass,PASSWORD_DEFAULT, ['cost' => PASSWORD_COST]);
 			$arr['code'] = 3;
 			$arr['msg'] = 'Username/password incorrect.';
 			header('Content-type: application/json');
