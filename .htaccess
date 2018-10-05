@@ -1,0 +1,3 @@
+<FilesMatch "\.xphp$">
+    Require all denied
+</FilesMatch>
