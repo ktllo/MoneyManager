@@ -1,7 +1,7 @@
 <?php
-include_once 'config.php';
-$md5 = md5_file('config.php');
-$sha1 = sha1_file('config.php');
+include_once __DIR__.'/config.php';
+$md5 = md5_file(__DIR__.'/config.php');
+$sha1 = sha1_file(__DIR__.'/config.php');
 $farray = get_defined_constants(true);
 $darray = $farray['user'];
 $darray['md5']=$md5;
