@@ -9,29 +9,13 @@ include_once 'function.php';
 <html>
 	<head>
 		<title>Money Manager</title>
-		<style>
-div.func{
-	background-color: red;
-	position: absolute;
-	left:0;
-	width: 20%;
-	top: 0;
-	height: 100%;
-	overflow: auto;
-}
-div.main{
-	background-color: blue;
-	position: absolute;
-	right: 0;
-	width: 80%;
-	top: 0;
-	height: 100%;
-	overflow: auto;
-}
-		</style>
+		<script type="text/javascript" src="lib/jquery.js"></script>
+		<script type="text/javascript" src="lib/jquery-ui.js"></script>
+		<link rel="stylesheet" href="lib/jquery-ui.css">
+		<link rel="stylesheet" href="main.css">	
 	</head>
 	<body>
-		<div class="func"> </div>
+	<div class="func"><?php include 'menu.php';?></div>
 		<div class="main"> </div>
 	</body>
 </html>

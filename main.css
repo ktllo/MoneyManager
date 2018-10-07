@@ -1,0 +1,24 @@
+div.func{
+	background-color: red;
+	position: absolute;
+	left:0;
+	width: 20%;
+	top: 0;
+	height: 100%;
+	overflow: auto;
+	text-align: center;
+}
+div.main{
+	background-color: blue;
+	position: absolute;
+	right: 0;
+	width: 80%;
+	top: 0;
+	height: 100%;
+	overflow: auto;
+}
+button.menuitem{
+	width: 80%;
+	margin: 15px auto 15px auto;
+	position: relative;
+}
